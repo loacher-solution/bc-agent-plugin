@@ -1,0 +1,18 @@
+{
+  "name": "bc-agent-plugin",
+  "description": "Business Central AL development agent for Claude Code — compile, debug, test, and look up symbols offline without guessing",
+  "version": "0.1.0",
+  "author": {
+    "name": "Marcel Loacher"
+  },
+  "homepage": "https://github.com/TODO-org/bc-agent-plugin",
+  "repository": "https://github.com/TODO-org/bc-agent-plugin",
+  "license": "MIT",
+  "keywords": [
+    "business-central",
+    "al",
+    "microsoft-dynamics",
+    "erp",
+    "claude-code"
+  ]
+}
