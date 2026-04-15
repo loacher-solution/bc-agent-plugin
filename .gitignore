@@ -1,0 +1,19 @@
+# PowerShell module cache
+*.psm1.cache
+
+# Test fixture extraction output
+tests/**/fixtures/*.extracted/
+tests/**/fixtures/*.unwrapped/
+
+# Editor junk
+.vs/
+.vscode/*
+!.vscode/settings.json.sample
+
+# OS junk
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Plugin runtime cache (should never land in repo)
+.bc-agent/
