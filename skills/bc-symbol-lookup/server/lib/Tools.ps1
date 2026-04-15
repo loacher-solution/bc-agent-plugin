@@ -2,8 +2,11 @@
 <#
 Tools.ps1 — MCP tool handlers for bc-symbol-lookup.
 
-Each handler takes `-Index` (a SymbolIndex) and `-Args` (a hashtable from the MCP
+Each handler takes `-Index` (a SymbolIndex) and `-ToolArgs` (a hashtable from the MCP
 tool call) and returns a PSCustomObject that gets JSON-serialized as the tool result.
+
+Parameter name is `ToolArgs` not `Args` because `$Args` is an automatic variable in
+PowerShell scriptblocks and gets overwritten by positional arguments, breaking dispatch.
 
 Never throw — wrap errors in { error = ... } return values so the agent gets structured
 feedback instead of a protocol-level crash.
@@ -13,7 +16,7 @@ function Invoke-BcListAppsTool {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)] $Index,
-        [hashtable] $Args = @{}
+        [hashtable] $ToolArgs = @{}
     )
     return [pscustomobject]@{
         apps = @($Index.Apps | ForEach-Object {
@@ -32,14 +35,14 @@ function Invoke-BcFindObjectTool {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)] $Index,
-        [hashtable] $Args = @{}
+        [hashtable] $ToolArgs = @{}
     )
 
-    $name = [string]$Args['name']
+    $name = [string]$ToolArgs['name']
     if (-not $name) {
         return [pscustomobject]@{ error = "Parameter 'name' is required" }
     }
-    $type = [string]$Args['type']
+    $type = [string]$ToolArgs['type']
 
     $results = $Index.Objects | Where-Object {
         $_.Name -ilike $name
@@ -67,13 +70,13 @@ function Invoke-BcGetFieldsTool {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)] $Index,
-        [hashtable] $Args = @{}
+        [hashtable] $ToolArgs = @{}
     )
 
-    $objectName = [string]$Args['objectName']
-    $objectId   = $Args['objectId']
-    $type       = [string]$Args['type']
-    $filter     = [string]$Args['filter']
+    $objectName = [string]$ToolArgs['objectName']
+    $objectId   = $ToolArgs['objectId']
+    $type       = [string]$ToolArgs['type']
+    $filter     = [string]$ToolArgs['filter']
 
     if (-not $type) {
         return [pscustomobject]@{ error = "Parameter 'type' is required (e.g., 'Table' or 'TableExtension')" }
@@ -120,13 +123,13 @@ function Invoke-BcGetProceduresTool {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)] $Index,
-        [hashtable] $Args = @{}
+        [hashtable] $ToolArgs = @{}
     )
 
-    $objectName = [string]$Args['objectName']
-    $objectId   = $Args['objectId']
-    $type       = [string]$Args['type']
-    $filter     = [string]$Args['filter']
+    $objectName = [string]$ToolArgs['objectName']
+    $objectId   = $ToolArgs['objectId']
+    $type       = [string]$ToolArgs['type']
+    $filter     = [string]$ToolArgs['filter']
 
     if (-not $type) {
         return [pscustomobject]@{ error = "Parameter 'type' is required (e.g., 'Codeunit' or 'Page')" }
@@ -190,14 +193,14 @@ function Invoke-BcSearchTool {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)] $Index,
-        [hashtable] $Args = @{}
+        [hashtable] $ToolArgs = @{}
     )
 
-    $query = [string]$Args['query']
+    $query = [string]$ToolArgs['query']
     if (-not $query) {
         return [pscustomobject]@{ error = "Parameter 'query' is required" }
     }
-    $limit = if ($Args['limit']) { [int]$Args['limit'] } else { 25 }
+    $limit = if ($ToolArgs['limit']) { [int]$ToolArgs['limit'] } else { 25 }
 
     $ql = $query.ToLowerInvariant()
     $hits = $Index.Objects | ForEach-Object {
@@ -227,11 +230,11 @@ function Invoke-BcGetObjectSourceTool {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)] $Index,
-        [hashtable] $Args = @{}
+        [hashtable] $ToolArgs = @{}
     )
 
-    $objectName = [string]$Args['objectName']
-    $type       = [string]$Args['type']
+    $objectName = [string]$ToolArgs['objectName']
+    $type       = [string]$ToolArgs['type']
 
     $match = $Index.Objects | Where-Object {
         $_.Type -ieq $type -and $_.Name -ieq $objectName
