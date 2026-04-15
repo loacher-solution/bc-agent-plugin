@@ -51,6 +51,14 @@ Port the page scripting skill from `business-central-agentic-workflow`. Adapt fo
 - `/bc-container clean` cleanup command.
 - Cloud sandbox targeting (publish and test against online sandboxes instead of local containers).
 
+## v0.1.1 follow-ups (from final review)
+
+- **`FileSystemWatcher` re-index** in `bc-symbol-lookup` — currently indexes once at startup; document now says restart-only. Implementing the watcher unblocks mid-session symbol downloads.
+- **`bc_search` over captions** — currently ranks by object name only; spec says "names and captions."
+- **`McpServer.ps1` `continue` inside `switch`** — currently harmless (only used in the unknown-tool path) but the construct exits the switch, not the loop. Restructure before adding post-switch logic.
+- **`bc_get_object_source` `objectId` parameter** — v1 stub ignores it. Wire it in when v2 actually returns source.
+- **Replace `TODO-org` GitHub URLs** in `plugin.json`, `marketplace.json`, `README.md` once the repo is published.
+
 ## Agent quality
 
 - Eval harness for the `bc-developer` subagent — a set of "can the agent correctly add feature X" scenarios, run automatically against new versions of the prompt.

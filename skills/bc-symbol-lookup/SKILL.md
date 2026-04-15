@@ -25,7 +25,9 @@ If a field, procedure, or object you need isn't in the index, the project's `.al
 
 ## How it works
 
-The server strips the 40-byte header from each `.app` file, detects Ready2Run wrappers and unwraps the inner `.app` (whose location varies across BC versions — we search any `.app` entry inside the outer zip), extracts `SymbolReference.json`, and walks the recursive `Namespaces` tree to build a flat in-memory index. Re-indexing runs on demand when `.alpackages/` changes.
+The server strips the 40-byte header from each `.app` file, detects Ready2Run wrappers and unwraps the inner `.app` (whose location varies across BC versions — we search any `.app` entry inside the outer zip), extracts `SymbolReference.json`, and walks the recursive `Namespaces` tree to build a flat in-memory index.
+
+**Indexing happens once at server startup.** In v1 there is no filesystem watcher — if you run `al_downloadsymbols` mid-session to pull new symbols, the `bc-symbols` server must be restarted (re-run `/bc-setup` or restart Claude Code) before the new symbols are visible to lookups. Live re-indexing is on the v2 roadmap.
 
 Object kinds handled: Table, TableExtension, Page, PageExtension, Codeunit, Report, ReportExtension, Query, XmlPort, Enum (both `Enums` and `EnumTypes` JSON shapes), EnumExtension, Interface, ControlAddIn, PermissionSet.
 

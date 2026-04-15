@@ -27,8 +27,8 @@ if (-not (Test-Path $ProjectRoot)) {
     exit 1
 }
 
-$altoolExe = Join-Path $AlToolsPath 'altool.exe'
-$bcSymbolsScript = Join-Path $PluginRoot 'skills/bc-symbol-lookup/server/bc-symbol-mcp.ps1'
+$altoolExe = [IO.Path]::Combine($AlToolsPath, 'altool.exe')
+$bcSymbolsScript = [IO.Path]::Combine($PluginRoot, 'skills', 'bc-symbol-lookup', 'server', 'bc-symbol-mcp.ps1')
 $mcpJsonPath = Join-Path $ProjectRoot '.mcp.json'
 $bcAgentDir = Join-Path $ProjectRoot '.bc-agent'
 $troubleshootTemplatePath = Join-Path $bcAgentDir 'mcp-troubleshoot.template.json'

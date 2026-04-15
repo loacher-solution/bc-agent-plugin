@@ -3,6 +3,9 @@
   "owner": {
     "name": "Marcel Loacher"
   },
+  "author": {
+    "name": "Marcel Loacher"
+  },
   "plugins": [
     {
       "name": "bc-agent-plugin",

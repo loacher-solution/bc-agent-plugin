@@ -103,11 +103,17 @@ function Invoke-BcGetFieldsTool {
 
     $fields = $fieldsProp.Value | ForEach-Object {
         $td = $_.TypeDefinition
+        $caption = $null
+        if ($_.PSObject.Properties['Properties'] -and $_.Properties) {
+            $captionProp = $_.Properties | Where-Object { $_.Name -ieq 'Caption' } | Select-Object -First 1
+            if ($captionProp) { $caption = [string]$captionProp.Value }
+        }
         [pscustomobject]@{
             id         = $_.Id
             name       = $_.Name
             typeName   = if ($td) { $td.Name } else { $null }
             typeLength = if ($td -and $td.PSObject.Properties['Length']) { $td.Length } else { $null }
+            caption    = $caption
             enabled    = if ($_.PSObject.Properties['Enabled']) { $_.Enabled } else { $true }
         }
     }

@@ -132,7 +132,9 @@ function Find-IndexedObject {
         [Parameter(Mandatory)] [string] $Name,
         [string] $Type
     )
-    $results = $Index.Objects | Where-Object { $_.Name -ieq $Name -or $_.Name -ilike $Name }
+    # Used by SymbolIndex.Tests.ps1 to verify index shape; tool handlers in Tools.ps1
+    # filter inline for performance. -ilike covers both exact and wildcard matches.
+    $results = $Index.Objects | Where-Object { $_.Name -ilike $Name }
     if ($Type) {
         $results = $results | Where-Object { $_.Type -ieq $Type }
     }
