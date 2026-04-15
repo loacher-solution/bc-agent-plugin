@@ -1,0 +1,13 @@
+{
+  "id": "cccccccc-cccc-cccc-cccc-cccccccccccc",
+  "publisher": "Fixture Publisher",
+  "version": "1.0.0.0",
+  "idRanges": [
+    {
+      "to": 50149,
+      "from": 50100
+    }
+  ],
+  "dependencies": [],
+  "name": "Fixture App No Versions"
+}

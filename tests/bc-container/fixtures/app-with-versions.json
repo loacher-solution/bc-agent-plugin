@@ -1,0 +1,15 @@
+{
+  "publisher": "Fixture Publisher",
+  "application": "28.0.0.0",
+  "platform": "28.0.0.0",
+  "version": "1.0.0.0",
+  "dependencies": [],
+  "name": "Fixture App",
+  "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+  "idRanges": [
+    {
+      "to": 50149,
+      "from": 50100
+    }
+  ]
+}
