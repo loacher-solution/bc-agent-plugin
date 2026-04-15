@@ -62,7 +62,15 @@ function Read-AppSymbols {
             return $null
         }
 
-        $innerEntry = $zip.Entries | Where-Object { $_.FullName -like 'publishedartifacts/*.app' } | Select-Object -First 1
+        # Inner .app location varies across BC versions:
+        #   v28 plan docs: publishedartifacts/<guid>_<ver>_<maj>_<build>.app
+        #   v27 real-world: <guid>_<ver>_<maj>_<build>.app at zip root (no publishedartifacts/ prefix)
+        # Also minimal-r2r.app test fixture uses publishedartifacts/ path.
+        # Match any .app entry, prefer the largest (the real inner app, not a Merkle tracker).
+        $innerEntry = $zip.Entries |
+            Where-Object { $_.FullName.ToLowerInvariant().EndsWith('.app') } |
+            Sort-Object -Property Length -Descending |
+            Select-Object -First 1
         if (-not $innerEntry) {
             return $null
         }

@@ -81,7 +81,9 @@ function _WalkNamespaces {
         @{ Property = 'Queries';         Type = 'Query' },
         @{ Property = 'XmlPorts';        Type = 'XmlPort' },
         @{ Property = 'Enums';           Type = 'Enum' },
+        @{ Property = 'EnumTypes';       Type = 'Enum' },            # BC real-world uses EnumTypes
         @{ Property = 'EnumExtensions';  Type = 'EnumExtension' },
+        @{ Property = 'EnumExtensionTypes'; Type = 'EnumExtension' },
         @{ Property = 'Interfaces';      Type = 'Interface' },
         @{ Property = 'ControlAddIns';   Type = 'ControlAddIn' },
         @{ Property = 'PermissionSets';  Type = 'PermissionSet' },
