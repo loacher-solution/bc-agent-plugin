@@ -1,0 +1,16 @@
+{
+  "name": "bc-agent-plugin-marketplace",
+  "owner": {
+    "name": "Marcel Loacher"
+  },
+  "plugins": [
+    {
+      "name": "bc-agent-plugin",
+      "source": "./",
+      "description": "Business Central AL development agent for Claude Code",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["business-central", "al", "erp"]
+    }
+  ]
+}
