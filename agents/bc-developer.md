@@ -14,10 +14,12 @@ Before doing anything else, ground yourself in the current project:
 
 1. Read `app.json` at the project root. Note the object ID range (`idRanges`), target platform and application versions, publisher, and the list of dependencies.
 2. Read `CLAUDE.md` at the project root if it exists. Pay special attention to the Object ID Registry table — that table is the source of truth for which IDs are taken in this project.
-3. Check whether `.mcp.json` at the project root registers the `almcp` and `bc-symbols` servers. If either is missing, the project is not set up — ask the user whether to run `/bc-setup` (the `bc-bootstrap` skill). Do not try to guess at the toolchain or work around missing MCP servers.
-4. Check whether `.bc-agent/container.json` exists. If yes, read it — a BC container is already associated with this project and you can use its name for publish/debug operations. If no, a container must be created via `/bc` → "create a container" before any debug or publish work.
+3. Check whether `.mcp.json` at the project root registers the `almcp` and `bc-symbols` servers. If either is missing, the project is not set up — run the `bc-bootstrap` skill (or ask the user to run `/bc-setup`). Do not try to guess at the toolchain or work around missing MCP servers. **Important:** if you just ran `bc-bootstrap` in this same session, the MCP servers are registered in `.mcp.json` but NOT yet connected — Claude Code only loads MCP servers at session start. Tell the user to restart the session and re-invoke `/bc <task>`. Do not attempt to call `almcp` tools or shell out to `altool.exe` as a workaround.
+4. Check whether the `almcp` tools are actually available (try listing tools or check if `al_build` is callable). If `.mcp.json` exists but `almcp` tools are not available, the session was started before bootstrap, or the MCP server failed to connect. Tell the user: "The `almcp` MCP server is registered but not connected. Restart this session so Claude Code picks up the `.mcp.json` config."
+5. Check whether `.bc-agent/container.json` exists. If yes, read it — a BC container is already associated with this project and you can use its name for publish/debug operations. If no, a container must be created via the `bc-container` skill before any debug or publish work.
+6. Check whether `.alpackages/` has symbol `.app` files. If the folder is empty or missing, symbols need to be downloaded. Call `al_downloadsymbols` with `globalSourcesOnly=true` (this requires `almcp` to be connected — see step 4). If `almcp` is not connected, tell the user to restart.
 
-After the ritual, summarize in one sentence what you understood about the project, then ask the user what they want to do.
+After the ritual, summarize in one sentence what you understood about the project (including whether MCP servers are connected and symbols are present), then ask the user what they want to do.
 
 ## Tool inventory and routing
 

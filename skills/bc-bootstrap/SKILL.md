@@ -64,14 +64,21 @@ If the output is `missing`, tell the user: "BcContainerHelper is required for co
 powershell -NoProfile -ExecutionPolicy Bypass -File <plugin>/skills/bc-bootstrap/scripts/write-mcp-config.ps1 -ProjectRoot "<abs-project-root>" -AlToolsPath "<from-step-3-or-4>" -PluginRoot "<plugin-install-root>"
 ```
 
-### 7. Summarize
+### 7. Summarize and instruct restart
 
 Report to the user:
 
 - Where the AL toolchain lives
 - Which MCP servers were registered
 - Whether `CLAUDE.md` was created or left untouched
-- The suggested next step: "Use `/bc <task>` to delegate BC work to the bc-developer subagent."
+
+**Critical:** The `almcp` and `bc-symbols` MCP servers were just registered in `.mcp.json` but are **not yet connected** in this session. Claude Code only reads `.mcp.json` at session start.
+
+Tell the user:
+
+> "Bootstrap complete. **Please restart this Claude Code session** (close and reopen, or start a new conversation in this project folder) so the `almcp` and `bc-symbols` MCP servers connect. After restarting, use `/bc <task>` to start working — the `al_downloadsymbols` and `bc_find_object` tools will be available."
+
+**Do NOT attempt to call `almcp` tools (like `al_downloadsymbols` or `al_build`) in this same session.** They won't be available until after the restart. Do not try to work around this by shelling out to `altool.exe` directly — that defeats the MCP architecture.
 
 ## Failure modes
 
