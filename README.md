@@ -23,7 +23,7 @@ The plugin auto-provisions the AL toolchain — either by reusing a VS Code AL e
 ## Install
 
 ```
-/plugin marketplace add https://github.com/TODO-org/bc-agent-plugin
+/plugin marketplace add https://github.com/loacher-solution/bc-agent-plugin
 /plugin install bc-agent-plugin
 ```
 

@@ -327,8 +327,8 @@ That is all for slash commands in v1. No `/bc-compile`, `/bc-test`, `/bc-debug` 
   "description": "Business Central AL development agent for Claude Code — compile, debug, test, and look up symbols offline without guessing",
   "version": "0.1.0",
   "author": { "name": "Marcel Loacher" },
-  "homepage": "https://github.com/<TODO-org>/bc-agent-plugin",
-  "repository": "https://github.com/<TODO-org>/bc-agent-plugin",
+  "homepage": "https://github.com/<loacher-solution>/bc-agent-plugin",
+  "repository": "https://github.com/<loacher-solution>/bc-agent-plugin",
   "license": "MIT",
   "keywords": ["business-central", "al", "microsoft-dynamics", "erp"]
 }
